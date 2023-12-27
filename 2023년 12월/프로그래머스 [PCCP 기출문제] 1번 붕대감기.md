@@ -49,3 +49,60 @@ attacks의 공격 시간은 모두 다릅니다.<br>
 | 9    | 15(-15)           | 0         | O    | 몬스터의 공격으로 연속 성공이 초기화됩니다. |
 | 10   | 10(-5)            | 0         | O    | 몬스터의 공격으로 연속 성공이 초기화됩니다. |
 | 11   | 5(-5)             | 0         | O    | 몬스터의 마지막 공격입니다. |
+
+## 과정
+일단 조건을 다음과 같이 정리해보았다.<br>
+
+(1) 시전 시간동안 1초 마다 초당 회복량(x)만큼 체력 회복 <br>
+(2) 시전 시간을 다 채우는 것에 성공하면 추가 회복량(y) 얻음 <br>
+(3) 공격 당하면 피해량 만큼 체력 차감<br>
+(4) 기술 취소 or 기술이 성공해 끝나면 다시 기술 사용 가능, 이 때 연속 성공 시간 0으로 초기화 <br>
+(5) 체력이 0이하가 되면 죽음 -> 이때 -1을 리턴 <br>
+(6) 최대 체력이 정해져 있음<br>
+
+위 조건들은 몬스터가 마지막으로 공격하는 시간까지 체크되어야 한다.<br>
+다행히 attacks가 공격 시간을 기준으로 오름차순 정렬되어 있기 때문에 벡터의 마지막 원소의 공격 시간을 갖고오면 된다.<br>
+
+조건을 체크하기 위해 필요한 변수를 다음과 같이 생성했다.<br>
+- continuity_cnt : 연속 성공 카운트 변수
+- max_time : 반복문 수행 시간
+- max_health : 최대 체력
+- index : 몬스터 공격 시간 지정 변수
+
+```
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(vector<int> bandage, int health, vector<vector<int>> attacks) {
+    int answer = 0;
+    int continuity_cnt = 0; // 연속 성공
+    int max_time = attacks[attacks.size() - 1][0]; // 수행 시간
+    int max_health = health; // 최대 체력
+    int index = 0; // 몬스터 공격 정보 지정
+
+    for (int i = 0; i <= max_time; i++) {
+        if (attacks[index][0] == i) {
+            health -= attacks[index][1];
+            if (health <= 0) {
+                health = -1;
+                break;
+            }
+            continuity_cnt = 0;
+            index++;
+        } else {
+            continuity_cnt++;
+            health += bandage[1];
+            if (continuity_cnt == bandage[0]) {
+                health += bandage[2];
+                continuity_cnt = 0;
+            }
+            if (health >= max_health) health = max_health;
+        }
+    }
+    answer = health;
+    return answer;
+}
+```
+
