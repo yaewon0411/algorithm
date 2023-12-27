@@ -11,8 +11,9 @@ board의 길이와 board[n]의 길이는 동일합니다.<br>
 board[h][w]는 영어 소문자로만 이루어져 있습니다.
 
 ### 입출력 예
-board	h	w	result<br>
-[["blue", "red", "orange", "red"], ["red", "red", "blue", "orange"], ["blue", "orange", "red", "red"], ["orange", "orange", "red", "blue"]]	1	1	2
+| board | h | w | result |
+|----|-----|-----|-----|
+|[["blue", "red", "orange", "red"], ["red", "red", "blue", "orange"], ["blue", "orange", "red", "red"], ["orange", "orange", "red", "blue"]]|	1|	1|	2|
 
 
 ### 과정
