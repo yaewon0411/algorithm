@@ -1,3 +1,4 @@
+https://code-challenge.elice.io/explore
 ## 문제 설명
 시간 제한: 1초
 엘리스 토끼는 목표량을 정해 수학 문제를 열심히 풉니다. 목표량은 정수입니다.
